@@ -4,8 +4,8 @@ RUN npm install -g nodemon
 
 WORKDIR /home/node/app
 
-COPY . .
+RUN chown -R node:node .
 
-RUN npm install
+USER node
 
 CMD [ "tail", "-f", "/dev/null"]

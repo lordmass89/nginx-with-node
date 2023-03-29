@@ -7,13 +7,14 @@ services:
     build: 
       context: ./node
     image: lordmass/nodejs-desafio-fullcycle
+    restart: always
     volumes:
       - ./node:/home/node/app
-    restart: always
     ports:
       - 3000:3000
     networks:
       - desafio-network
+    command: sh -c "npm install && nodemon index.js"
 
 networks:
   desafio-network:
