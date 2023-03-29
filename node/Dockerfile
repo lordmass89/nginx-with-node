@@ -8,4 +8,4 @@ RUN chown -R node:node .
 
 USER node
 
-CMD [ "tail", "-f", "/dev/null"]
+EXPOSE 3000

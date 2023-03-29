@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=node-db
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - desafio-network
 
   node:
     container_name: nodejs
@@ -8,13 +21,23 @@ services:
       context: ./node
     image: lordmass/nodejs-desafio-fullcycle
     restart: always
+    tty: true
     volumes:
       - ./node:/home/node/app
-    ports:
-      - 3000:3000
     networks:
       - desafio-network
-    command: sh -c "npm install && nodemon index.js"
+    command: sh -c "npm install && nodemon index.js"  
+  nginx:
+    container_name: nginx
+    build: 
+      context: ./nginx
+    image: lordmass/nginx-desafio-fullcycle
+    restart: always
+    tty: true
+    ports:
+      - 8080:80
+    networks:
+      - desafio-network
 
 networks:
   desafio-network:
