@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  node:
+    container_name: nodejs
+    build: 
+      context: ./node
+    image: lordmass/nodejs-desafio-fullcycle
+    volumes:
+      - ./node:/home/node/app
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - desafio-network
+
+networks:
+  desafio-network:
+    driver: bridge
+    
