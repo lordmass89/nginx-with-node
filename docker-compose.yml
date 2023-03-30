@@ -26,20 +26,27 @@ services:
       - ./node:/home/node/app
     networks:
       - desafio-network
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s && docker-entrypoint.sh
     command: sh -c "npm install && nodemon index.js"  
+    depends_on:
+      - db
+      
   nginx:
     container_name: nginx
     build: 
       context: ./nginx
     image: lordmass/nginx-desafio-fullcycle
     restart: always
+    entrypoint: dockerize -wait tcp://node:3000 -timeout 40s && docker-entrypoint.sh
+    command: ["nginx", "-g", "daemon off;"]
     tty: true
     ports:
       - 8080:80
     networks:
       - desafio-network
+    depends_on:
+      - node
 
 networks:
   desafio-network:
     driver: bridge
-    
